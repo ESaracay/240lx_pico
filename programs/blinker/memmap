@@ -1,0 +1,45 @@
+STACK_SIZE = 0x2710; /* 10 kB */
+/* xip and flash are the same thing */
+
+MEMORY {
+    flash (rw): ORIGIN = 0x10000000, LENGTH = 0x1E8480
+    ram (rwx): ORIGIN = 0x20000000, LENGTH = 0x40740
+}
+
+/* VMA AT > LMA */
+SECTIONS {
+    /* If we want dynamic code gen this must be loaded into ram as well */
+    /* .debug_info is section with helpful gdb info */
+    .text : {
+        __code_start__ = .;
+        KEEP(*(.text.boot))
+        *(.text*)
+        __code_end__ = .;
+        . = ALIGN(8);
+    } > flash
+
+    /* Noload doesn't exist in binary, don't really need */
+
+    /* global constants */
+    .rodata : { *(.rodata*) } > flash
+
+    /* initialized data needs to be moved to ram instead of flash */
+    .data 0x20002710: {
+        . = ALIGN(8);
+        __data_start__ = .;
+        *(.data*)
+        . = ALIGN(8);
+        __data_end__ = .;
+    } > ram AT > flash
+    __data_start_flash__ = LOADADDR(.data);
+
+    /* data initialized to zero that will be written to in mymain */
+    .bss (NOLOAD) : {
+        __bss_start__ = .;
+        *(.bss*)
+        *(COMMON)
+        . = ALIGN(8);
+        __bss_end__ = .;
+    } > ram 
+
+}
