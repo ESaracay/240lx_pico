@@ -9,64 +9,49 @@
 @ Used for linker to load this section
 .section ".text.boot"
 .thumb
-
+    @disable SSI
     ldr r0,=0x18000008
     ldr r1,=0x00000000
     str r1,[r0]
 
+    @set baud rate to 8
     ldr r0,=0x18000014
     ldr r1,=0x00000008
     str r1,[r0]
 
+    @setup SPI dataframe format and size
     ldr r0,=0x18000000
     ldr r1,=0x001F0300
     str r1,[r0]
 
+    @enable spi register
     ldr r0,=0x180000F4
     ldr r1,=0x03000218
     str r1,[r0]
 
+    @set number of data frames
     ldr r0,=0x18000004
     ldr r0,=0x00000000
     str r1, [r0]
 
+    @enable SSI
     ldr r0,=0x18000008
     ldr r1,=0x00000001
     str r1,[r0]
 
-    ldr r0,=0x10000000
-    ldr r1,=0x20000000
-    ldr r2,=0x400
-
-copy_loop:
-    ldr r3,[r0]
-    str r3,[r1]
-    add r0,#0x4
-    add r1,#0x4
-    sub r2,#1
-    bne copy_loop
-
-    ldr r0,=0x20000101
+    ldr r0, =0x10000000
+    ldr r1, =0x20000000
+    ldr r2, =0x20000400
+    _boot_start_loop:
+    ldr r3, [r0]
+    str r3, [r1]
+    add r0, #0x4
+    add r1, #0x4
+    cmp r1, r2
+    bne _boot_start_loop
+    @ Tricky: Start at postion in ram after second stage boot which is 256 bytes
+    ldr r0, =0x20000101
     bx r0
-
-@.thumb_func
-@_bootstart:
-    @ldr r0, =0x10000000
-    @@ldr r1, =0x10001000
-    @ldr r1, =0x1000
-    @ldr r2, =0x20000000
-    @_boot_start_loop:
-    @ldr r3, [r0]
-    @str r3, [r2]
-    @add r0, #0x4
-    @add r2, #0x4
-    @sub r2, #1
-    @@cmp r0, r1
-    @@bne _boot_start_loop
-    @bne _boot_start_loop
-    @@ Start at postion in ram after second stage boot which is 256 bytes
-    @ldr r0, =0x20001100
-    @bx r0
 
 .section ".text.start"
 @ _start is automatically run first
