@@ -17,6 +17,9 @@ enum {
     GPIO_OUT = SIO_BASE + 0x010,
     GPIO_OUT_SET = SIO_BASE + 0x014,
     GPIO_OUT_CLR = SIO_BASE + 0x018,
+    GPIO_OE = SIO_BASE + 0x20,
+    GPIO_OE_CLR = SIO_BASE + 0x028,
+    GPIO_OE_SET = SIO_BASE + 0x024
 };
 
 // page 203 of rp2040 datasheet
@@ -25,7 +28,8 @@ enum {
     // 1 means reset 
     RESET = RESET_CONTROLLER,
     WATCH_DOG = RESET_CONTROLLER + 0x4,
-    RESET_DONE = RESET_CONTROLLER + 0x8
+    RESET_DONE = RESET_CONTROLLER + 0x8,
+    RESETS_RESET_CLR = RESET_CONTROLLER + 0x3000,
 };
 // RESET register
 enum {
@@ -59,13 +63,10 @@ void DELAY(uint32_t val);
 
 void gpio_reset();
 
-// Checks reset done register and returns 1 if done
-uint32_t gpio_is_reset();
-
 void gpio_set_function(uint32_t pin, gpio_func_t func);
 
 // Function F5 is SIO
-void gpio_set_input(uint32_t pin);
+void gpio_set_output(uint32_t pin);
 
 //static inline void gpio_set_output(uint32_t pin);
 
