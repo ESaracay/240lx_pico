@@ -11,17 +11,17 @@ SECTIONS {
     /* If we want dynamic code gen this must be loaded into ram as well */
     /* .debug_info is section with helpful gdb info */
     .text : {
-        __code_start__ = .;
+        __boot_start__ = .;
         KEEP(*(.text.boot))
+        . = ALIGN(256);
+        __code_start__ = .;
+        KEEP(*(.text.start))
         *(.text*)
         __code_end__ = .;
         . = ALIGN(8);
-    } > flash
-
+    } > ram AT > flash
+    FLASH_START = LOADADDR(.text);
     /* Noload doesn't exist in binary, don't really need */
-
-    /* global constants */
-    .rodata : { *(.rodata*) } > flash
 
     /* initialized data needs to be moved to ram instead of flash */
     .data 0x20002710: {
@@ -31,7 +31,10 @@ SECTIONS {
         . = ALIGN(8);
         __data_end__ = .;
     } > ram AT > flash
-    __data_start_flash__ = LOADADDR(.data);
+
+    /* global constants */
+    .rodata : { *(.rodata*) } > flash
+    FLASH_END = ADDR(.rodata);
 
     /* data initialized to zero that will be written to in mymain */
     .bss (NOLOAD) : {

@@ -44,8 +44,11 @@ $(BUILD_DIR)uf2conv: uf2conv.c
 mymain: $(BUILD_DIR)mymain.bin $(BUILD_DIR)uf2conv
 	cd $(BUILD_DIR);./uf2conv mymain.bin ../firmware.uf2
 
-#mymain: $(BUILD_DIR)mymain.bin
-#python3 uf2conv.py $(BUILD_DIR)mymain.bin -f 0xe48bff56 --convert --output $(BUILD_DIR)firmware.uf2
+$(BUILD_DIR)makeuf2: makeuf2.c
+	gcc -O2 $^ -o $@
+
+#mymain: $(BUILD_DIR)mymain.bin $(BUILD_DIR)makeuf2
+#cd $(BUILD_DIR); ./makeuf2 mymain.bin ../actual.uf2
 
 .PHONY: clean
 clean:

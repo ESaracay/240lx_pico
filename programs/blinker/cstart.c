@@ -17,8 +17,6 @@
 #define RESETS_RESET_DONE_SET       (RESETS_BASE+0x8+0x2000)
 #define RESETS_RESET_DONE_CLR       (RESETS_BASE+0x8+0x3000)
 
-#define SIO_BASE                    0xD0000000
-
 #define SIO_GPIO_OUT_RW             (SIO_BASE+0x10)
 #define SIO_GPIO_OUT_SET            (SIO_BASE+0x14)
 #define SIO_GPIO_OUT_CLR            (SIO_BASE+0x18)
@@ -109,20 +107,7 @@ int mymain() {
 }
 
 void cstart() {
-    extern uint32_t __data_start_flash__, __data_start__, __data_end__, __bss_start__,__bss_end__;
-    // copy writable sections to ram 
-    //uint32_t *data_end_ram = &__data_end__;
-    //uint32_t *data_start_flash = &__data_start_flash__;
-   // uint32_t *data_ram = &__data_start__;
-
-    /*
-    // copy flash to ram
-    while (data_ram < data_end_ram) {
-        *data_ram = *data_start_flash;
-        data_start_flash++;
-        data_ram++;
-    }
-    */
+    extern uint32_t __bss_start__,__bss_end__;
 
     // Clear out all values in bss section
     uint32_t *bss_end = &__bss_end__;
@@ -130,6 +115,7 @@ void cstart() {
     while (bss < bss_end) {
         *bss++ = 0;
     }
+    
 
     mymain();
 }
