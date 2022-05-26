@@ -1,6 +1,7 @@
 #include "gpio.h"
 #include "clock.h"
 #include "integer-math.h"
+#include <stdint.h>
 
 // Clock is 5.8 times slower than expected
 #define US_CYCLES 1

@@ -3,8 +3,8 @@ BUILD := ./build
 MAKEFLAGS += --no-builtin-rules
 BUILD_DIR = ./build/
 ASM_SRCS := start.S
-C_SRCS := cstart.c gpio.c clock.c
-DEPS := cstart.h gpio.h clock.h
+C_SRCS := cstart.c gpio.c clock.c hello_world.c sw-uart.c
+DEPS := cstart.h gpio.h clock.h sw-uart.h
 OBJS := $(patsubst %.S,$(BUILD_DIR)%.o,$(ASM_SRCS))
 OBJS += $(patsubst %.c,$(BUILD_DIR)%.o,$(C_SRCS))
 

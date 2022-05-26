@@ -10,7 +10,21 @@ void gpio_reset() {
     while(!gpio_is_reset()) {};
 }
 
+void gpio_set_input(uint32_t pin) {
+    if (pin > NUM_GPIOS) {
+        return;
+    } 
+    uint32_t offset = (pin * 8);
+    PUT32(IO_BANK_BASE_CTRL + offset, SIO);
+    PUT32(GPIO_OE + SET_OFFSET, 0 << pin);
+}
 
+uint32_t gpio_read(uint32_t pin) {
+    if (pin > NUM_GPIOS) {
+        return 0;
+    } 
+    return (GET32(GPIO_IN) >> pin) & 1;
+}
 
 void gpio_set_output(uint32_t pin) {
     // Enable as output

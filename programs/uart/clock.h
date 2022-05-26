@@ -1,5 +1,6 @@
 #ifndef __CLOCK_H__
 #define __CLOCK_H__
+#include <stdint.h>
 
 #define CLK_BASE 0x40008000
 // need to write 0x2

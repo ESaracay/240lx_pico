@@ -75,13 +75,15 @@ void gpio_set_function(uint32_t pin, gpio_func_t func);
 // Function F5 is SIO
 void gpio_set_output(uint32_t pin);
 
+void gpio_set_input(uint32_t pin);
+
 //static inline void gpio_set_output(uint32_t pin);
 
 void gpio_set_on(uint32_t pin);
 
 void gpio_set_off(uint32_t pin);
 
-void gpio_read(uint32_t pin);
+uint32_t gpio_read(uint32_t pin);
 
 // write either 1 or 0
 void gpio_write(uint32_t pin, uint32_t val);
