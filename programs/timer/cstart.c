@@ -17,11 +17,11 @@ int mymain() {
     while(1) {
         gpio_set_on(0);
         // Second
-        delay_us(ACTUAL_SECOND);
+        delay_us(SECOND_US);
         //seconds_start();
         gpio_set_off(0);
         //seconds_start();
-        delay_us(ACTUAL_SECOND);
+        delay_us(SECOND_US);
     }
     return 0;
 
