@@ -1,0 +1,6 @@
+.program hello
+set pindirs, 1
+loop:
+	pull
+	out pins, 1
+	jmp loop
