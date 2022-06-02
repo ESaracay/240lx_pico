@@ -27,16 +27,18 @@
 
 
 
-static inline void sendbit(uint8_t bit) {
+static inline void sendbit(uint32_t bit) {
+    /*
     while (1) {
             if((GET32(PIO0_FSTAT) & ( 1<< 16) )== 0) break;
         }
+        */
         // Should be just a 1 or 0
         PUT32(PIO0_TXF0, bit);
 }
 
 // Write out a zero for 39 ints
-static inline void pix_flush() { 
+static inline void pix_flush(uint32_t LED) { 
     gpio_set_output(LED);
     DELAY(1000);
     gpio_set_function(LED, PIO0);

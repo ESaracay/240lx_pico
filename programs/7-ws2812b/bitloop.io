@@ -4,7 +4,7 @@
 ; currently each bit will write for 5 cycles = 40 nanoseconds
 set pindirs, 1
 loop:
-    set pins, 1 ; We always end before a pull with line pulled high
+    ;set pins, 1  We always end before a pull with line pulled high
 	pull
 	out x, 1
 	jmp !x do_zero

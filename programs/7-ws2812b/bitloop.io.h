@@ -13,27 +13,26 @@
 // ------ //
 
 #define ws2812_wrap_target 0
-#define ws2812_wrap 9
+#define ws2812_wrap 8
 
 static const uint16_t ws2812_program_instructions[] = {
             //     .wrap_target
     0xe081, //  0: set    pindirs, 1                 
-    0xe001, //  1: set    pins, 1                    
-    0x80a0, //  2: pull   block                      
-    0x6021, //  3: out    x, 1                       
-    0x0028, //  4: jmp    !x, 8                      
-    0xe601, //  5: set    pins, 1                [6] 
-    0xe200, //  6: set    pins, 0                [2] 
-    0x0001, //  7: jmp    1                          
-    0xe900, //  8: set    pins, 0                [9] 
-    0x0001, //  9: jmp    1                          
+    0x80a0, //  1: pull   block                      
+    0x6021, //  2: out    x, 1                       
+    0x0027, //  3: jmp    !x, 7                      
+    0xe601, //  4: set    pins, 1                [6] 
+    0xe200, //  5: set    pins, 0                [2] 
+    0x0001, //  6: jmp    1                          
+    0xe900, //  7: set    pins, 0                [9] 
+    0x0001, //  8: jmp    1                          
             //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program ws2812_program = {
     .instructions = ws2812_program_instructions,
-    .length = 10,
+    .length = 9,
     .origin = -1,
 };
 

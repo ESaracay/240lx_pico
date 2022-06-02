@@ -6,20 +6,19 @@
 
 #define ACTUAL_SECOND 1000000
 #define LED 15
+#define TOTAL_LEDS 16
 
 static const uint16_t pio_instructions[] = {
     0xe081, //  0: set    pindirs, 1                 
-    0xe001, //  1: set    pins, 1                    
-    0x80a0, //  2: pull   block                      
-    0x6021, //  3: out    x, 1                       
-    0x0028, //  4: jmp    !x, 8                      
-    0xe601, //  5: set    pins, 1                [6] 
-    0xe200, //  6: set    pins, 0                [2] 
-    0x0001, //  7: jmp    1                          
-    0xe900, //  8: set    pins, 0                [9] 
-    0x0001, //  9: jmp    1                                         
+    0x80a0, //  1: pull   block                      
+    0x6021, //  2: out    x, 1                       
+    0x0027, //  3: jmp    !x, 7                      
+    0xe601, //  4: set    pins, 1                [6] 
+    0xe200, //  5: set    pins, 0                [2] 
+    0x0001, //  6: jmp    1                          
+    0xe900, //  7: set    pins, 0                [9] 
+    0x0001, //  8: jmp    1                                         
 };
-
 
 int mymain() {
     enable_clock(true);
@@ -46,7 +45,6 @@ int mymain() {
     //PUT32(PIO0_SM0_CLKDIV + SET_OFFSET, (128 << 8));
     PUT32(PIO0_SM0_PINCTRL, LED | (1 << 20) | (LED << 5) | (1 << 26));
     PUT32(PIO0_CTRL, 1);
-    printf("Finished setting val\n");
 
     //pix_sendpixel(LED, 0xff,0,0);
     //pix_flush();
@@ -59,14 +57,29 @@ int mymain() {
             //if((GET32(PIO0_FSTAT) & ( 1<< 16) )== 0) break;
         //}
         //PUT32(PIO0_TXF0, 0x0);
-        pix_sendpixel(0xff,0,0);
-        pix_sendpixel(0xff,0,0);
-        // same as writing low
+        //p        sendbit(0xff);
+        //
+        
 
-        pix_flush();
-        DELAY(10000000);
+    // Make sure fifo is empty
+    //while (1) {
+            //if((GET32(PIO0_FSTAT) & ( 1<< 8) ) != 0) break;
+        //}
 
-        printf("Cycle complete\n");
+        for (int i = 0; i < 24*TOTAL_LEDS; i++) {
+            for (int j = 0; j < i; j++) {
+                sendbit(0xff);
+            }
+            pix_flush(LED);
+            DELAY(400000);
+        }
+
+        for (int i = 0; i < 24 * TOTAL_LEDS; i++) {
+            sendbit(0x00);
+        }
+
+        pix_flush(LED);
+        pix_flush(LED);
     }
     return 0;
 }
