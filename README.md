@@ -9,5 +9,7 @@ the things you will need can be spread across a 100 pages. So have CMD+F ready!
 
 This project was inspired by Engler's 140E course and DWelch67's bare metal repository for the pico. I've included links for both repos at the bottom of this page
 and have made sure to cite any pages from both repo's. 
-[CS140E](https://github.com/dddrrreee/cs140e-20win)
-[DWelch67 raspberrypi-pico](https://github.com/dwelch67/raspberrypi-pico)
+
+1.[CS140E](https://github.com/dddrrreee/cs140e-20win)
+
+2.[DWelch67 raspberrypi-pico](https://github.com/dwelch67/raspberrypi-pico)
