@@ -11,4 +11,4 @@ Take a look at the [rp2040 datasheet](https://github.com/ESaracay/240lx_pico/blo
 ### 1. Understanding the Bootup Process
 The general layout of memory straight from the 2040 datasheet
 /insert image/
-As explained in section 2.6.3 and 2.8 the pico's Bootrom (default bootloader) takes uf2 files and places them in either flash or ram. To have our programs persist after power downs   
+As explained in section 2.6.3 and 2.8 the pico's Bootrom (default bootloader) takes uf2 files and places them in either flash or ram. To have our programs persist after power downs we will placing our programs in flash via uf2. The steps for our boot sequence are outlined in the diagram below. There are a lot of important details here but the main one is that our second stage bootloader will copy over our program from flash to ram.   
