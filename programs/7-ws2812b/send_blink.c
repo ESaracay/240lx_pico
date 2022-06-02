@@ -5,7 +5,7 @@
 #define PADS_BANK0_GPIO25_RW        (PADS_BANK0_BASE+0x68+0x0000)
 
 #define ACTUAL_SECOND 1000000
-#define LED 15
+#define LED 25
 #define TOTAL_LEDS 16
 
 static const uint16_t pio_instructions[] = {

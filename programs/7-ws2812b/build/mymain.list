@@ -187,9 +187,9 @@ Disassembly of section .text:
 20000204:	429a      	cmp	r2, r3
 20000206:	dbe1      	blt.n	200001cc <mymain+0x26>
 20000208:	2106      	movs	r1, #6
-2000020a:	200f      	movs	r0, #15
+2000020a:	2019      	movs	r0, #25
 2000020c:	f000 f8be 	bl	2000038c <gpio_set_function>
-20000210:	200f      	movs	r0, #15
+20000210:	2019      	movs	r0, #25
 20000212:	f000 f993 	bl	2000053c <drive_pad>
 20000216:	4a23      	ldr	r2, [pc, #140]	; (200002a4 <mymain+0xfe>)
 20000218:	4b23      	ldr	r3, [pc, #140]	; (200002a8 <mymain+0x102>)
@@ -215,7 +215,7 @@ Disassembly of section .text:
 20000246:	693b      	ldr	r3, [r7, #16]
 20000248:	429a      	cmp	r2, r3
 2000024a:	dbf5      	blt.n	20000238 <mymain+0x92>
-2000024c:	200f      	movs	r0, #15
+2000024c:	2019      	movs	r0, #25
 2000024e:	f7ff ff75 	bl	2000013c <pix_flush>
 20000252:	4b17      	ldr	r3, [pc, #92]	; (200002b0 <mymain+0x10a>)
 20000254:	0018      	movs	r0, r3
@@ -241,16 +241,16 @@ Disassembly of section .text:
 20000280:	005b      	lsls	r3, r3, #1
 20000282:	429a      	cmp	r2, r3
 20000284:	dbf4      	blt.n	20000270 <mymain+0xca>
-20000286:	200f      	movs	r0, #15
+20000286:	2019      	movs	r0, #25
 20000288:	f7ff ff58 	bl	2000013c <pix_flush>
-2000028c:	200f      	movs	r0, #15
+2000028c:	2019      	movs	r0, #25
 2000028e:	f7ff ff55 	bl	2000013c <pix_flush>
 20000292:	e7cb      	b.n	2000022c <mymain+0x86>
 20000294:	100017ec 	andne	r1, r0, ip, ror #15
 20000298:	14080012 	strne	r0, [r8], #-18	; 0xffffffee
 2000029c:	100017d8 	ldrdne	r1, [r0], -r8
 200002a0:	100017fc 	strdne	r1, [r0], -ip
-200002a4:	041001ef 	ldreq	r0, [r0], #-495	; 0xfffffe11
+200002a4:	04100339 	ldreq	r0, [r0], #-825	; 0xfffffcc7
 200002a8:	502000dc 	ldrdpl	r0, [r0], -ip	; <UNPREDICTABLE>
 200002ac:	50200000 	eorpl	r0, r0, r0
 200002b0:	00061a80 	andeq	r1, r6, r0, lsl #21
