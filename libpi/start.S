@@ -78,6 +78,7 @@ GET32:
     ldr r0, [r0]
     bx lr
 
+@ Can be used for nanosecondish delays by taking 2us
 .globl DELAY
 .thumb_func
 DELAY:

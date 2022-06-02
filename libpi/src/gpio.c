@@ -25,20 +25,6 @@ void gpio_set_function(uint32_t pin, uint32_t function) {
     uint32_t offset = (pin * 8);
     PUT32(IO_BANK_BASE_CTRL + offset, function);
 }
-/*
-uint32_t gpio_is_reset() {
-    return (GET32(RESET_DONE) >> 5 & 0x1);
-}
-void gpio_reset() {
-    PUT32(RESETS_RESET_CLR,(1<<5)); //IO_BANK0
-    while(1)
-    {
-        if((GET32(RESETS_RESET_DONE_RW)&(1<<5))!=0) break;
-    }
-    PUT32(RESETS_RESET_CLR, 1 << RESET_IO_BANK0);
-    while(!gpio_is_reset()) {};
-}
-*/
 
 void gpio_set_input(uint32_t pin) {
     if (pin > NUM_GPIOS) {
@@ -81,4 +67,21 @@ void gpio_set_off(uint32_t pin) {
         return;
     } 
     PUT32(GPIO_OUT_CLR, 1 << pin);
+}
+
+/** PADS helper functions **/
+void reset_pads() {
+    reset_periph(RESET_PADS_BANK0);
+}
+
+void reset_pio() {
+    reset_periph(RESET_PIO0);
+}
+
+void drive_pad(uint32_t pin) {
+    if (pin > NUM_GPIOS) {
+        return;
+    }
+    uint32_t offset = pin * 4;
+    PUT32(PADS_GPIO_BASE + offset, 1 << 5);
 }

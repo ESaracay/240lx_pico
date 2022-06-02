@@ -29,6 +29,12 @@ enum {
     GPIO_OE_SET = SIO_BASE + 0x024
 };
 
+#define PADS_BANK_BASE 0x4001c000
+enum {
+    PADS_VOLT_SELECT = 0x00 + PADS_BANK_BASE,
+    PADS_GPIO_BASE = 0x04 + PADS_BANK_BASE,
+};
+
 // page 203 of rp2040 datasheet
 #define RESET_CONTROLLER 0x4000c000
 enum {
@@ -43,7 +49,10 @@ enum {
     RESET_IO_BANK0 = 5,
     RESET_USBCTRL = 24, 
     RESET_UART1 = 23,
-    RESET_UART0 = 22
+    RESET_UART0 = 22,
+    RESET_PADS_BANK0 = 8,
+    RESET_PIO0 = 10,
+    RESET_PIO1 = 11,
 };
 
 // Checkout page 260 of rp2040 datasheet
@@ -97,5 +106,11 @@ void gpio_set_pullup(unsigned pin);
 // set <pin> as a pulldown.
 void gpio_set_pulldown(unsigned pin);
 
+/** PADS functions **/
+void reset_pio();
+
+void reset_pads();
+
+void drive_pad(uint32_t pin);
 
 #endif

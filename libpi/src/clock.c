@@ -2,6 +2,7 @@
 #include "clock.h"
 #include "integer-math.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 // Clock is 5.8 times slower than expected
 #define US_CYCLES 1
@@ -19,18 +20,20 @@ void seconds_start() {
 
 
 // Clock will run at 12 MHZ
-void enable_clock() {
+void enable_clock(bool enable_sys) {
     // frequency_mhz * (1000 / 256);
     uint32_t delay = 47;
     PUT32(XOSC_CTRL, 0xaa0);
     PUT32(XOSC_STARTUP, delay);
-    PUT32(XOSC_CTRL + SET_OFFSET, 0xfab << 12);
+    PUT32(XOSC_CTRL + SET_OFFSET, 0xfab);
 
     // Wait till ready
     while (!(GET32(XOSC_STATUS) >> 31));
     // Setup clk_ref so you can setup clock_sys
-    //PUT32(CLK_REF_CTRL, 0x2);
-    //PUT32(CLK_SYS_CTRL, 0x0);
+    if (enable_sys) {
+        PUT32(CLK_REF_CTRL, 0x2);
+        PUT32(CLK_SYS_CTRL, 0x0);
+    }
 }
 
 static inline uint32_t micro_second_end() {
@@ -39,6 +42,7 @@ static inline uint32_t micro_second_end() {
     //return GET32(STK_CSR) | 1;
     //return 1;
 }
+
 /*
 void delay_us(uint32_t us) {
     //uint32_t scaled_us = udiv(us * 10, SCALING_FACTOR);
@@ -46,6 +50,8 @@ void delay_us(uint32_t us) {
     while(!micro_second_end()) {;}
 }
 */
+
+// XOSC runs at 12MHZ by default
 void delay_us(uint32_t us) {
     uint32_t num_loops = (us * 12) >> 8;
     for (int i = 0; i < num_loops; i++) {
@@ -53,6 +59,17 @@ void delay_us(uint32_t us) {
         while ((GET32(XOSC_COUNT) & 0xff)) {;}
     }
 }
+
+/*
+// Must be less than 20,000 nanoseconds
+// Too slow
+void delay_ns(uint32_t ns) {
+    // Subtract by one to make up for slow div
+    uint32_t num_ticks = udiv(ns, 83) - 1;
+    PUT32(XOSC_COUNT + SET_OFFSET, num_ticks);
+    while ((GET32(XOSC_COUNT) & 0xff)) {;}
+}
+*/
 
 
 void micro_seconds_start(uint32_t count) {

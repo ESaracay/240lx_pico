@@ -2,7 +2,6 @@
 #define __RPI_H__
 
 #include "clock.h"
-#include "crcpico.h"
 #include "cstart.h"
 #include "gpio.h"
 #include "integer-math.h"

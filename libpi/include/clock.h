@@ -1,6 +1,7 @@
 #ifndef __CLOCK_H__
 #define __CLOCK_H__
 #include <stdint.h>
+#include <stdbool.h>
 
 #define CLK_BASE 0x40008000
 // need to write 0x2
@@ -31,9 +32,10 @@ enum {
     CLK_PERI_CTRL = CLK_BASE + 0x48
 };
 
-void enable_clock();
+void enable_clock(bool enable_sys);
 void delay_us(uint32_t us);
 void micro_seconds_start(uint32_t count);
 void seconds_start();
+//void delay_ns(uint32_t ns);
 void enable_clk_peri(uint32_t source);
 #endif
