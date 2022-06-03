@@ -4,10 +4,6 @@ Take a look at the [rp2040 datasheet](https://github.com/ESaracay/240lx_pico/blo
 
 ***
 
-### Plugging things in 
-
-***
-
 ### 1. Understanding the Bootup Process
 The general layout of memory straight from the 2040 datasheet
 /insert image/
@@ -27,3 +23,4 @@ This isn't necessary given that the Raspberry Pi foundation provides a .elf to .
 <insert image>
 ***
 ### GPIO Fun!
+This is the final piece! Section 2.19 explains everything you need to know about GPIO. However, unlike previous raspberry pi models the GPIO registers don't handle everything for IO. The first thing you do is set your pin to the [SSI](https://en.wikipedia.org/wiki/Synchronous_Serial_Interface)function. Pg. 603 breaks down how all the registers for SSI work. One important note that led to major bugs is that all peripherals must be reset before attempting to run things. Section 2.14 explains how to reset peripherals and getting them ready for use. From my understanding this was a design choice for saving power. Kind of annoying when you forgot to reset things though. 
